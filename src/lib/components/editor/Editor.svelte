@@ -15,10 +15,9 @@
 	let tweenedReviewWidth = tweened(50);
 
 	const unsubMarkdownstore = markdownStore.subscribe((state) => {
-		const currentMarkdowm = state.markdownsData.find(
-			(markdown) => markdown.id === state.currentMarkDown
-		)?.content;
-		if (currentMarkdowm) markdown = currentMarkdowm;
+		const currentMarkdowm =
+			state.markdownsData.find((markdown) => markdown.id === state.currentMarkDown)?.content || '';
+		markdown = currentMarkdowm;
 	});
 
 	$: markdowwnWidth = isPreviewOpened && innerWidth > 640 ? 0 : 50;
@@ -27,12 +26,7 @@
 	$: tweenedMarkdowwnWidth.set(markdowwnWidth);
 	$: tweenedReviewWidth.set(reviewWidth);
 
-	$: formStore.update((state) => {
-		return {
-			...state,
-			content: markdown
-		};
-	});
+	$: formStore.updateContent(markdown);
 
 	onDestroy(() => {
 		unsubMarkdownstore();

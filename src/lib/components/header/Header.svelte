@@ -6,52 +6,22 @@
 	import SaveIcon from '../../../assets/icon-save.svg?component';
 	import Button from '../../ui/Button.svelte';
 	import { modalStore } from '$lib/stores/modalStore';
-	import markdownStore, { type IMarkDownData } from '$lib/stores/markdowmsStore';
+	import markdownStore from '$lib/stores/markdowmsStore';
 	import formStore from '$lib/stores/formStore';
-	import { v4 as uuidv4 } from 'uuid';
-	import { format } from 'date-fns';
-	import { onDestroy } from 'svelte';
+	// import { v4 as uuidv4 } from 'uuid';
+	// import { format } from 'date-fns';
+	// import { onDestroy } from 'svelte';
 
-	let cuurentMarkdownName = '';
-	let cuurentMardownContent = '';
+	// let cuurentMarkdownName = '';
+	// let cuurentMardownContent = '';
 
-	const unsubFormStore = formStore.subscribe((state) => {
-		cuurentMardownContent = state.content;
-		cuurentMarkdownName = state.name;
-	});
+	// const unsubFormStore = formStore.subscribe((state) => {
+	// 	cuurentMardownContent = state.content;
+	// 	cuurentMarkdownName = state.name;
+	// });
 
 	const saveHandler = () => {
-		markdownStore.update((state) => {
-			const { markdownsData, currentMarkDown } = state;
-			if (currentMarkDown === '') {
-				const id = uuidv4();
-				const date = format(new Date(), 'MM-dd-yyyy');
-				let newMarkDown: IMarkDownData = {
-					createdAt: date,
-					name: cuurentMarkdownName,
-					content: cuurentMardownContent,
-					id
-				};
-				return {
-					markdownsData: [newMarkDown],
-					currentMarkDown: id
-				};
-			}
-
-			const copiedMarkDownData = [...markdownsData];
-			const markDownToUpdate = copiedMarkDownData.find(
-				(markdown) => markdown.id === currentMarkDown
-			);
-			if (markDownToUpdate) {
-				markDownToUpdate.content = cuurentMardownContent;
-				markDownToUpdate.name = cuurentMarkdownName;
-			}
-
-			return {
-				...state,
-				markdownsData: copiedMarkDownData
-			};
-		});
+		markdownStore.saveMarkDwon($formStore.name, $formStore.content);
 	};
 </script>
 

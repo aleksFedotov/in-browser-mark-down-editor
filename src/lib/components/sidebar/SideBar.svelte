@@ -6,39 +6,14 @@
 	import Button from '$lib/ui/Button.svelte';
 	import DocumentInfo from '$lib/ui/DocumentInfo.svelte';
 	import { onDestroy } from 'svelte';
-	import { v4 as uuidv4 } from 'uuid';
-	import { format } from 'date-fns';
+
 	import type { IMarkDownData } from '$lib/stores/markdowmsStore';
 
-	// let isSideBarOpened: boolean = false;
 	let markdownData: IMarkDownData[] = [];
 
 	const unsubmarkdowns = markdownStore.subscribe((state) => {
 		markdownData = state.markdownsData;
 	});
-
-	const hadleNewDoc = () => {
-		markdownStore.update((state) => {
-			const id = uuidv4();
-			const date = format(new Date(), 'MM-dd-yyyy');
-			let name = 'untitled-document.md';
-			const count = state.markdownsData.filter((markdown) =>
-				markdown.name.includes('untitled')
-			).length;
-			if (count > 0) name = `untitled-document(${count}).md`;
-			const newDoc: IMarkDownData = {
-				createdAt: date,
-				name,
-				content: '',
-				id
-			};
-
-			return {
-				markdownsData: [...markdownData, newDoc],
-				currentMarkDown: id
-			};
-		});
-	};
 
 	onDestroy(() => {
 		unsubmarkdowns();
@@ -49,9 +24,9 @@
 	<Logo isHeader={false} />
 
 	<h2 class="heading_s sidebar_heading">my documents</h2>
-	<Button on:click={hadleNewDoc}>+ New Document</Button>
+	<Button on:click={markdownStore.createNewDocument}>+ New Document</Button>
 	<ul class="documents_list">
-		{#each markdownData as doc}
+		{#each $markdownStore.markdownsData as doc}
 			<DocumentInfo date={doc.createdAt} fileName={doc.name} markdownId={doc.id} />
 		{/each}
 	</ul>

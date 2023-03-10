@@ -6,9 +6,7 @@
 	export let markdownId: string;
 
 	const clickHandler = () => {
-		markdownStore.update((state) => {
-			return { ...state, currentMarkDown: markdownId };
-		});
+		markdownStore.selectMarkDown(markdownId);
 	};
 </script>
 

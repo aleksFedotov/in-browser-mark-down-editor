@@ -5,21 +5,7 @@
 	import { scale } from 'svelte/transition';
 
 	const deleteHandler = () => {
-		markdownStore.update((state) => {
-			const filteredMarkdowns = state.markdownsData.filter(
-				(markdown) => markdown.id !== state.currentMarkDown
-			);
-			let newCurerntMarkdowm;
-			if (filteredMarkdowns.length) {
-				newCurerntMarkdowm = filteredMarkdowns[filteredMarkdowns.length - 1].id;
-			} else {
-				newCurerntMarkdowm = '';
-			}
-			return {
-				markdownsData: filteredMarkdowns,
-				currentMarkDown: newCurerntMarkdowm
-			};
-		});
+		markdownStore.deleteMarkDown();
 		modalStore.setState(false);
 	};
 </script>

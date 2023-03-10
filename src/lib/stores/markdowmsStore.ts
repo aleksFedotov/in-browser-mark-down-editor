@@ -1,5 +1,7 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { v4 as uuidv4 } from 'uuid';
+import { format } from 'date-fns';
 
 export interface IMarkDownData {
 	createdAt: string;
@@ -40,7 +42,92 @@ if (browser) {
 	initialState = initialData;
 }
 
-const markdownStore = writable<IMarkDownStore>(initialState);
+const createMarkdownStore = () => {
+	const { subscribe, set, update } = writable<IMarkDownStore>(initialState);
+
+	return {
+		subscribe,
+		set,
+		update,
+		saveMarkDwon: (currentMarkdownName: string, currentMardownContent: string) =>
+			update((state) => {
+				const { markdownsData, currentMarkDown } = state;
+
+				if (currentMarkDown === '') {
+					const id = uuidv4();
+					const date = format(new Date(), 'MM-dd-yyyy');
+					const newMarkDown: IMarkDownData = {
+						createdAt: date,
+						name: currentMarkdownName,
+						content: currentMardownContent,
+						id
+					};
+					return {
+						markdownsData: [newMarkDown],
+						currentMarkDown: id
+					};
+				}
+				const copiedMarkDownData = [...markdownsData];
+				const markDownToUpdate = copiedMarkDownData.find(
+					(markdown) => markdown.id === currentMarkDown
+				);
+				if (markDownToUpdate) {
+					markDownToUpdate.content = currentMardownContent;
+					markDownToUpdate.name = currentMarkdownName;
+				}
+
+				return {
+					...state,
+					markdownsData: copiedMarkDownData
+				};
+			}),
+		deleteMarkDown: () =>
+			update((state) => {
+				const filteredMarkdowns = state.markdownsData.filter(
+					(markdown) => markdown.id !== state.currentMarkDown
+				);
+				let newCurerntMarkdowm;
+				if (filteredMarkdowns.length) {
+					newCurerntMarkdowm = filteredMarkdowns[filteredMarkdowns.length - 1].id;
+				} else {
+					newCurerntMarkdowm = '';
+				}
+				return {
+					markdownsData: filteredMarkdowns,
+					currentMarkDown: newCurerntMarkdowm
+				};
+			}),
+
+		createNewDocument: () =>
+			update((state) => {
+				const id = uuidv4();
+				const date = format(new Date(), 'MM-dd-yyyy');
+				let name = 'untitled-document.md';
+				const count = state.markdownsData.filter((markdown) =>
+					markdown.name.includes('untitled')
+				).length;
+				if (count > 0) name = `untitled-document(${count}).md`;
+				const newDoc: IMarkDownData = {
+					createdAt: date,
+					name,
+					content: '',
+					id
+				};
+
+				return {
+					markdownsData: [...state.markdownsData, newDoc],
+					currentMarkDown: id
+				};
+			}),
+
+		selectMarkDown: (markdownId: string) =>
+			update((state) => {
+				return { ...state, currentMarkDown: markdownId };
+			})
+	};
+};
+
+const markdownStore = createMarkdownStore();
 
 markdownStore.subscribe((state) => {
 	if (browser) {

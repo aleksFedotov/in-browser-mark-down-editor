@@ -13,12 +13,7 @@
 		currentDocName = currenMarkdown?.name || 'untitled-document.md';
 	});
 
-	$: formStore.update((state) => {
-		return {
-			...state,
-			name: currentDocName
-		};
-	});
+	$: formStore.updateName(currentDocName);
 
 	let innerWidth = 1440;
 
