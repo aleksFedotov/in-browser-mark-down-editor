@@ -28,7 +28,7 @@
 	<DocIcon width="16" />
 	<div class="document_name">
 		{#if innerWidth > 640}
-			<label for="docName">Document Name</label>
+			<label for="docName" data-testid="document_name_label">Document Name</label>
 		{/if}
 		<input
 			type="text"
@@ -36,6 +36,7 @@
 			name="docName"
 			bind:value={currentDocName}
 			class="doc_input heading_m"
+			data-testid="document_name"
 		/>
 	</div>
 </div>

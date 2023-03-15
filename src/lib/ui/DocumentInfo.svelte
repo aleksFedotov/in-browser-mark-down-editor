@@ -10,7 +10,7 @@
 	};
 </script>
 
-<div class="document_info">
+<div class="document_info" data-testid="document_info">
 	<div>
 		<DocIcon />
 	</div>

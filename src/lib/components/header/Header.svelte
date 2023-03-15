@@ -8,17 +8,6 @@
 	import { modalStore } from '$lib/stores/modalStore';
 	import markdownStore from '$lib/stores/markdowmsStore';
 	import formStore from '$lib/stores/formStore';
-	// import { v4 as uuidv4 } from 'uuid';
-	// import { format } from 'date-fns';
-	// import { onDestroy } from 'svelte';
-
-	// let cuurentMarkdownName = '';
-	// let cuurentMardownContent = '';
-
-	// const unsubFormStore = formStore.subscribe((state) => {
-	// 	cuurentMardownContent = state.content;
-	// 	cuurentMarkdownName = state.name;
-	// });
 
 	const saveHandler = () => {
 		markdownStore.saveMarkDwon($formStore.name, $formStore.content);

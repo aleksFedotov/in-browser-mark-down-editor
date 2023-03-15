@@ -1,9 +1,27 @@
 import Editor from '../Editor.svelte';
 import { screen, render } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
+import markdownStore, { type IMarkDownStore } from '$lib/stores/markdowmsStore';
 
 const initialText =
 	"# Welcome to Markdown\n\nMarkdown is a lightweight markup language that you can use to add formatting elements to plaintext text documents.\n\n## How to use this?\n\n1. Write markdown in the markdown editor window\n2. See the rendered markdown in the preview window\n\n### Features\n\n- Create headings, paragraphs, links, blockquotes, inline-code, code blocks, and lists\n- Name and save the document to access again later\n- Choose between Light or Dark mode depending on your preference\n\n> This is an example of a blockquote. If you would like to learn more about markdown syntax, you can visit this [markdown cheatsheet](https://www.markdownguide.org/cheat-sheet/).\n\n#### Headings\n\nTo create a heading, add the hash sign (#) before the heading. The number of number signs you use should correspond to the heading level. You'll see in this guide that we've used all six heading levels (not necessarily in the correct way you should use headings!) to illustrate how they should look.\n\n##### Lists\n\nYou can see examples of ordered and unordered lists above.\n\n###### Code Blocks\n\nThis markdown editor allows for inline-code snippets, like this: `<p>I'm inline</p>`. It also allows for larger code blocks like this:\n\n```\n<main>\n  <h1>This is a larger code block</h1>\n</main>\n```";
+
+const store: IMarkDownStore = {
+	markdownsData: [
+		{
+			createdAt: '04-01-2022',
+			name: 'test-name',
+			content: 'Test',
+			id: '1'
+		}
+	],
+	currentMarkDown: '1'
+};
+
+const emptyStore: IMarkDownStore = {
+	markdownsData: [],
+	currentMarkDown: ''
+};
 
 describe('Edtior componet testing', () => {
 	test('should redner component', () => {
@@ -60,15 +78,25 @@ describe('Edtior componet testing', () => {
 		expect(h6).toBeInTheDocument();
 	});
 
-	// test('markdown textarea should be able to change value after typing', async () => {
-	// 	const user = userEvent.setup();
-	// 	render(Editor);
-	// 	// const textArea = screen.getByRole('textbox');
+	test('should have the right markdown', () => {
+		markdownStore.set(store);
+		render(Editor);
+		const textarea = screen.getByRole('textbox');
+		expect(textarea).toHaveValue('Test');
+	});
 
-	// 	await user.type(screen.getByRole('textbox'), '# Frontend Mentor');
+	test('should return empty textbox if store is emty', () => {
+		markdownStore.set(emptyStore);
+		render(Editor);
+		const textarea = screen.getByRole('textbox');
+		expect(textarea).toHaveValue('');
+	});
 
-	// 	// const textAreaNew = screen.getByRole('textbox');
-
-	// 	expect(screen.getByRole('textbox')).toHaveValue('# Frontend Mentor');
-	// });
+	test('preview and markdown should have 50% widht for windowwidth > 640', async () => {
+		render(Editor);
+		const markdown = screen.getByTestId('markdown');
+		const review = screen.getByTestId('preview');
+		expect(markdown).toHaveStyle('width : 50%');
+		expect(review).toHaveStyle('width : 50%');
+	});
 });

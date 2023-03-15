@@ -1,14 +1,7 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
-let theme: string;
-
-if (browser) {
-	const storedTheme = window.localStorage.getItem('theme');
-	theme = storedTheme ? storedTheme : 'dark';
-} else {
-	theme = 'dark';
-}
+const theme = browser ? window.localStorage.getItem('theme') ?? 'dark' : 'dark';
 
 const isDarkMode: boolean = theme === 'dark' ? true : false;
 

@@ -5,22 +5,9 @@
 	import Logo from '$lib/ui/Logo.svelte';
 	import Button from '$lib/ui/Button.svelte';
 	import DocumentInfo from '$lib/ui/DocumentInfo.svelte';
-	import { onDestroy } from 'svelte';
-
-	import type { IMarkDownData } from '$lib/stores/markdowmsStore';
-
-	let markdownData: IMarkDownData[] = [];
-
-	const unsubmarkdowns = markdownStore.subscribe((state) => {
-		markdownData = state.markdownsData;
-	});
-
-	onDestroy(() => {
-		unsubmarkdowns();
-	});
 </script>
 
-<aside class="sidebar" class:opened={$sideBarStore}>
+<aside class="sidebar" class:opened={$sideBarStore} role="region">
 	<Logo isHeader={false} />
 
 	<h2 class="heading_s sidebar_heading">my documents</h2>

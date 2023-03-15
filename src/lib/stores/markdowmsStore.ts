@@ -34,13 +34,9 @@ const initialData: IMarkDownStore = {
 	currentMarkDown: '0aaa1652-a9b6-4d9b-96ef-5f89d39ff75e'
 };
 
-let initialState: IMarkDownStore;
-if (browser) {
-	const storedData = window.localStorage.getItem('markdownData');
-	initialState = storedData ? JSON.parse(storedData) : initialData;
-} else {
-	initialState = initialData;
-}
+const initialState: IMarkDownStore = browser
+	? JSON.parse(window.localStorage.getItem('markdownData') || '') ?? initialData
+	: initialData;
 
 const createMarkdownStore = () => {
 	const { subscribe, set, update } = writable<IMarkDownStore>(initialState);
