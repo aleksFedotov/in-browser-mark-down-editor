@@ -2,15 +2,16 @@
 	import DocIcon from '../../../../assets/icon-document.svg?component';
 	import markdownStore from '$lib/stores/markdowmsStore';
 	import formStore from '$lib/stores/formStore';
-	import { onDestroy } from 'svelte';
-
-	let currentDocName = 'untitled-document.md';
+	import { onDestroy, onMount } from 'svelte';
+	let isLoading = true;
+	let currentDocName = '';
 
 	const unsubMarkdown = markdownStore.subscribe((state) => {
 		let currenMarkdown = state.markdownsData.find(
 			(markdown) => markdown.id === state.currentMarkDown
 		);
-		currentDocName = currenMarkdown?.name || 'untitled-document.md';
+		if (currenMarkdown) currentDocName = currenMarkdown.name;
+		else currentDocName = 'untitled-document.md';
 	});
 
 	$: formStore.updateName(currentDocName);
@@ -20,6 +21,8 @@
 	onDestroy(() => {
 		unsubMarkdown();
 	});
+
+	onMount(() => (isLoading = false));
 </script>
 
 <svelte:window bind:innerWidth />
@@ -30,14 +33,23 @@
 		{#if innerWidth > 640}
 			<label for="docName" data-testid="document_name_label">Document Name</label>
 		{/if}
-		<input
-			type="text"
-			placeholder="Document Name"
-			name="docName"
-			bind:value={currentDocName}
-			class="doc_input heading_m"
-			data-testid="document_name"
-		/>
+		{#if !isLoading}
+			<input
+				type="text"
+				name="docName"
+				bind:value={currentDocName}
+				class="doc_input heading_m"
+				data-testid="document_name"
+			/>
+		{:else}
+			<input
+				type="text"
+				name="docName"
+				value={''}
+				class="doc_input heading_m"
+				data-testid="document_name"
+			/>
+		{/if}
 	</div>
 </div>
 

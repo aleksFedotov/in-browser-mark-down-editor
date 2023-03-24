@@ -1,12 +1,23 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
-const theme = browser ? window.localStorage.getItem('theme') ?? 'dark' : 'dark';
+let theme = 'dark';
 
-const isDarkMode: boolean = theme === 'dark' ? true : false;
+if (browser) {
+	if (
+		localStorage.theme === 'dark' ||
+		(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+	) {
+		document.documentElement.setAttribute('data-theme', 'dark');
+		theme = 'dark';
+	} else {
+		document.documentElement.setAttribute('data-theme', 'light');
+		theme = 'light';
+	}
+}
 
 const createThemeStore = () => {
-	const { subscribe, update, set } = writable(isDarkMode);
+	const { subscribe, update, set } = writable(theme);
 
 	return {
 		subscribe,
@@ -14,19 +25,17 @@ const createThemeStore = () => {
 		update,
 		toggleTheme: () =>
 			update((state) => {
-				if (browser) {
-					document.documentElement.setAttribute('data-theme', !state ? 'dark' : 'light');
-				}
-				return !state;
+				document.documentElement.setAttribute('data-theme', state === 'dark' ? 'light' : 'dark');
+				return state === 'dark' ? 'light' : 'dark';
 			}),
-		setTheme: (newState: boolean) => set(newState)
+		setTheme: (newState: string) => set(newState)
 	};
 };
 
 const themeStore = createThemeStore();
 
 themeStore.subscribe((state) => {
-	if (browser) localStorage.setItem('theme', state ? 'dark' : 'light');
+	if (browser) localStorage.setItem('theme', state === 'dark' ? 'dark' : 'light');
 });
 
 export default themeStore;

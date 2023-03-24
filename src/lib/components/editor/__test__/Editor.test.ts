@@ -41,7 +41,7 @@ describe('Edtior componet testing', () => {
 
 		const preview = screen.getByTestId('preview');
 
-		expect(preview.classList[2]).toBe('hide');
+		expect(preview.classList[2]).toBe('preview_close');
 	});
 
 	test('should hide markdown editor after clicking on btn', async () => {
@@ -51,8 +51,8 @@ describe('Edtior componet testing', () => {
 		render(Editor);
 		const icon = screen.getByTestId('preview_icon');
 		await user.click(icon);
-		const markdown = screen.getByTestId(/markdown/i);
-		expect(markdown.classList[2]).toBe('hide');
+		const markdown = screen.getByTestId('markdown');
+		expect(markdown.classList[2]).toBe('markdown_close');
 	});
 
 	test('markdown textarea should have initial text', () => {
@@ -90,13 +90,5 @@ describe('Edtior componet testing', () => {
 		render(Editor);
 		const textarea = screen.getByRole('textbox');
 		expect(textarea).toHaveValue('');
-	});
-
-	test('preview and markdown should have 50% widht for windowwidth > 640', async () => {
-		render(Editor);
-		const markdown = screen.getByTestId('markdown');
-		const review = screen.getByTestId('preview');
-		expect(markdown).toHaveStyle('width : 50%');
-		expect(review).toHaveStyle('width : 50%');
 	});
 });

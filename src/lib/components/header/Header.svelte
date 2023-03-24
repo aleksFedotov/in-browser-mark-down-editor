@@ -8,6 +8,7 @@
 	import { modalStore } from '$lib/stores/modalStore';
 	import markdownStore from '$lib/stores/markdowmsStore';
 	import formStore from '$lib/stores/formStore';
+	import { onMount } from 'svelte';
 
 	const saveHandler = () => {
 		markdownStore.saveMarkDwon($formStore.name, $formStore.content);

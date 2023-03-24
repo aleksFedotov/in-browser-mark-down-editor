@@ -5,21 +5,21 @@ describe('themeStore testing', () => {
 	test('should have initial data', async () => {
 		const theme = get(themeStore);
 
-		expect(theme).toBe(true);
+		expect(theme).toBe('dark');
 	});
 
 	test('should toggle theme', () => {
 		const prevTheme = get(themeStore);
-		expect(prevTheme).toBe(true);
+		expect(prevTheme).toBe('dark');
 		themeStore.toggleTheme();
 		const currTheme = get(themeStore);
-		expect(currTheme).toBe(false);
+		expect(currTheme).toBe('light');
 	});
 	test('should set theme', () => {
 		const prevTheme = get(themeStore);
-		expect(prevTheme).toBe(false);
-		themeStore.setTheme(true);
+		expect(prevTheme).toBe('light');
+		themeStore.setTheme('dark');
 		const currTheme = get(themeStore);
-		expect(currTheme).toBe(true);
+		expect(currTheme).toBe('dark');
 	});
 });
