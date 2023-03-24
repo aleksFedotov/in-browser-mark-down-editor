@@ -13,12 +13,12 @@ Users should be able to:
 
 ### Screenshot
 
-<!-- ![](./preview.png) -->
+![](./preview.png)
 
 ### Links
 
-<!-- - Solution URL: [Add solution URL here](https://github.com/aleksFedotov/connect-four-game)
-- Live Site URL: [Add live site URL here](https://aleksfedotov.github.io/password-generator) -->
+- Solution URL: [Add solution URL here](https://github.com/aleksFedotov/connect-four-game)
+- Live Site URL: [Add live site URL here](https://in-browser-mark-down-editor-do6f.vercel.app/)
 
 ### Built with
 
