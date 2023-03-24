@@ -1,38 +1,25 @@
-# create-svelte
+### The challenge
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Users should be able to:
 
-## Creating a project
+- Create, Read, Update, and Delete markdown documents
+- Name and save documents to be accessed as needed
+- Edit the markdown of a document and see the formatted preview of the content
+- View a full-page preview of the formatted content
+- View the optimal layout for the app depending on their device's screen size
+- See hover states for all interactive elements on the page
+- **Bonus**: If you're building a purely front-end project, use localStorage to save the current state in the browser that persists when the browser is refreshed
+- **Bonus**: Build this project as a full-stack application
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Screenshot
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+<!-- ![](./preview.png) -->
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### Links
 
-## Developing
+<!-- - Solution URL: [Add solution URL here](https://github.com/aleksFedotov/connect-four-game)
+- Live Site URL: [Add live site URL here](https://aleksfedotov.github.io/password-generator) -->
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Built with
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- [Sveltekit](https://kit.svelte.dev/) - JS framework
