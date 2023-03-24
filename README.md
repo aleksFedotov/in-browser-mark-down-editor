@@ -17,7 +17,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/aleksFedotov/connect-four-game)
+- Solution URL: [Add solution URL here](https://github.com/aleksFedotov/in-browser-mark-down-editor)
 - Live Site URL: [Add live site URL here](https://in-browser-mark-down-editor-do6f.vercel.app/)
 
 ### Built with
